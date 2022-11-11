@@ -1,0 +1,50 @@
+
+
+1. Install PyTorch CPU Only
+pip3 install --no-cache-dir torch torchvision torchaudio
+
+2. Check Your Installation
+python
+>>> import torch
+>>> torch.__version__
+
+3. install YOLOv5
+git clone https://github.com/ultralytics/yolov5
+cd yolov5
+pip3 install --no-cache-dir -r requirements.txt
+
+4.check install[in yolov5 doc]
+pyton
+>> import torch
+>> import utils
+>> display = utils.notebook_init()  # checks
+
+Checking setup...
+YOLOv5 🚀 v6.2-237-g55e9516 Python-3.8.10 torch-1.12.1+cpu CPU
+Setup complete ✅ (4 CPUs, 7.5 GB RAM, 37.8/108.0 GB disk)
+
+5. update coco128.yaml
+vi /yolov5/data/coco128.yaml
+#path: ../yolov5/  # dataset root dir
+train: your_path/image/train # train images (relative to 'path') 128 images
+val: your_path/image/train   # val images (relative to 'path') 128 images
+
+6. download *.pt file
+https://github.com/ultralytics/yolov5/releases/download/v6.2/yolov5n.pt
+https://github.com/ultralytics/yolov5/releases/download/v6.2/yolov5s.pt
+.....
+
+"notebook no GPU can't running"
+
+7.upload yolov5 doc to google cloud
+
+8.
+import os
+path = "/content/drive/MyDrive/yolov5"
+os.chdir(path)
+os.listdir(path)
+!python train.py --img 640 --batch 16 --epochs 30 --data {YAML_NAME} --weights yolov5s.pt --cache
+
+
+
+

@@ -23,20 +23,23 @@ Checking setup...
 YOLOv5 🚀 v6.2-237-g55e9516 Python-3.8.10 torch-1.12.1+cpu CPU
 Setup complete ✅ (4 CPUs, 7.5 GB RAM, 37.8/108.0 GB disk)
 
-5. update coco128.yaml
+5. download coco128 sample train image
+wget https://ultralytics.com/assets/coco128.zip
+
+6. update coco128.yaml
 vi /yolov5/data/coco128.yaml
-#path: ../yolov5/  # dataset root dir
+#path: ../yolov5/            # dataset root dir
 train: your_path/image/train # train images (relative to 'path') 128 images
 val: your_path/image/train   # val images (relative to 'path') 128 images
 
-6. download *.pt file
+7. download *.pt file
 https://github.com/ultralytics/yolov5/releases/download/v6.2/yolov5n.pt
 https://github.com/ultralytics/yolov5/releases/download/v6.2/yolov5s.pt
 .....
 
 "notebook no GPU can't running"
 
-7.upload yolov5 doc to google cloud
+8.upload yolov5 doc to google cloud
 
 8.
 import os
@@ -44,6 +47,11 @@ path = "/content/drive/MyDrive/yolov5"
 os.chdir(path)
 os.listdir(path)
 !python train.py --img 640 --batch 16 --epochs 30 --data {YAML_NAME} --weights yolov5s.pt --cache
+
+9. train data labes tranfrom
+PascalVOC(XML) 2 COCO(json)
+run voc2coco.py
+get labes file
 
 
 

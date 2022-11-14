@@ -10,6 +10,7 @@ def get(root, name):
 
 def get_and_check(root, name, length):
     vars = root.findall(name)
+    
     if len(vars) == 0:
         raise NotImplementedError('Can not find {} in {}.'.format(name, root.tag))
     if length > 0 and len(vars) != length:
@@ -27,6 +28,8 @@ def transfer_xml_to_annos(xmlPath, saveDir, classes):
         # 圖片名稱
         filename = get_and_check(root, 'filename', 1).text
         #print('filename=',filename)
+        if filename=='':
+            exit(0)
         # 處理每個標註的檢測框
         with open(saveDir, "a") as bbox:
             #從<xml> object 開始搜尋
@@ -49,13 +52,22 @@ def transfer_xml_to_annos(xmlPath, saveDir, classes):
         #print("-" * 35)
         n += 1
     #再依序讀出另存一個檔案    
-    #with open("./labels/annos.txt",'r') as data_file:
-        #for line in data_file:
-            #data = line.split()
-                #print(data)
-            #label=data[0].split(".")
-            #labelsname = label[0]
-            #print(labelsname)
+    with open("./labels/annos.txt",'r') as data_file:
+        for line in data_file:
+            data = line.split()
+            #print(data)
+            label=data[0].split(".")
+            labelsname = label[0]
+            index = data[1]
+            xmin =  data[2]
+            ymin =  data[3]
+            xmax =  data[4]
+            ymax =  data[5]
+            f = open("./labels/"+labelsname+".txt", "w")
+            f.write('{} {} {} {} {}\n'.format(index,xmin,ymin,xmax,ymax))
+            f.close()
+            #print(labelsname,index,xmin,ymin,xmax,ymax)
+    #print(n)        
         
 
 # 將圖片依照比例分配train與val
@@ -162,10 +174,10 @@ def split_images_to_train_and_val(source, train_list, val_list):
         os.makedirs(folder2)
     # 移動圖片到資料夾
     for move_it in train_list:
-        shutil.copy(source + '/images/' + move_it, 
+        shutil.move(source + '/images/' + move_it, 
                     os.path.join(source, 'train2022', ''))
     for move_it in val_list:
-        shutil.copy(source + '/images/' + move_it, 
+        shutil.move(source + '/images/' + move_it, 
                     os.path.join(source, 'val2022', ''))
     print('移動圖片到train與val資料夾 Done')
 

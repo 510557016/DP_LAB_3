@@ -20,7 +20,7 @@ def get_and_check(root, name, length):
 
     return vars
 
-def transfer_xml_to_annos(xmlPath, saveDir, classes):
+def transfer_xml_to_annos(xmlPath, saveDir, imageDir, classes):
     n = 1
     for xml in xmlPath:
         tree = ET.parse(xml)
@@ -28,8 +28,14 @@ def transfer_xml_to_annos(xmlPath, saveDir, classes):
         # 圖片名稱
         filename = get_and_check(root, 'filename', 1).text
         #print('filename=',filename)
-        if filename=='':
-            exit(0)
+        # 圖片長寬
+        im = cv2.imread(imageDir+filename)
+        #print(im.shape) #((height),(width),(3))
+        width = im.shape[1]
+        height = im.shape[0]
+        #print(filename+" width=",width)
+        #print(filename+" height=",height)
+        
         # 處理每個標註的檢測框
         with open(saveDir, "a") as bbox:
             #從<xml> object 開始搜尋
@@ -40,10 +46,18 @@ def transfer_xml_to_annos(xmlPath, saveDir, classes):
                 label_index = str(classes.index(category))
                 
                 bndbox = get_and_check(obj, 'bndbox', 1)
-                xmin = int(get_and_check(bndbox, 'xmin', 1).text) - 1
-                ymin = int(get_and_check(bndbox, 'ymin', 1).text) - 1
-                xmax = int(get_and_check(bndbox, 'xmax', 1).text)
-                ymax = int(get_and_check(bndbox, 'ymax', 1).text)
+                xmin = (int(get_and_check(bndbox, 'xmin', 1).text) - 1) / width
+                ymin = (int(get_and_check(bndbox, 'ymin', 1).text) - 1) / height
+                xmax = (int(get_and_check(bndbox, 'xmax', 1).text)) / width
+                ymax = (int(get_and_check(bndbox, 'ymax', 1).text)) / height
+                
+                #print(filename+" width=",width)
+                #print(filename+" height=",height)
+                #print(filename+" xmin=",xmin)
+                #print(filename+" ymin=",ymin)
+                #print(filename+" xmax=",xmax)
+                #print(filename+" ymax=",ymax)
+                #exit(0)
 
                 bbox.write(filename +' {} {} {} {} {}\n'.format(label_index, xmin, ymin, xmax, ymax))
                       
@@ -203,7 +217,7 @@ def main():
     xmlPath = os.listdir(xmlDir)
     xmlPath = [xmlDir + i for i in xmlPath]
     # 將xml轉換為annos
-    transfer_xml_to_annos(xmlPath, saveDir, classes)
+    transfer_xml_to_annos(xmlPath, saveDir, imageDir, classes)
     print('=' * 60)
     
     #[Step2]將標籤轉換成coco格式，並以json格式存檔。資料夾包含images(圖片資料夾)、annos.txt(bbox標記)、classes.txt(類別清單)及annotations(儲存json的資料夾)。'''

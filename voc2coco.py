@@ -221,9 +221,9 @@ def main():
     print('=' * 60)
     
     #[Step2]將標籤轉換成coco格式，並以json格式存檔。資料夾包含images(圖片資料夾)、annos.txt(bbox標記)、classes.txt(類別清單)及annotations(儲存json的資料夾)。'''
-    print('[Step2] annos.txt轉coco，並以json格式儲存')
+    #print('[Step2] annos.txt轉coco，並以json格式儲存')
 
-    # 將圖片依照比例分配train與val
+    print("[Step2] 將圖片依照比例分配train與val")
     train_list, val_list = train_val_split(source, 0.8)
 
     # 生成train與val之coco格式json檔

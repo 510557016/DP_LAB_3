@@ -227,10 +227,10 @@ def main():
     train_list, val_list = train_val_split(source, 0.8)
 
     # 生成train與val之coco格式json檔
-    txt_to_coco_json(source, classes, train_list, 'instances_train2022')
-    print('-' * 35)
-    txt_to_coco_json(source, classes, val_list, 'instances_val2022')
-    print('-' * 35)
+    #txt_to_coco_json(source, classes, train_list, 'instances_train2022')
+    #print('-' * 35)
+    #txt_to_coco_json(source, classes, val_list, 'instances_val2022')
+    #print('-' * 35)
 
     # 移動圖片到train與val資料夾
     split_images_to_train_and_val(source, train_list, val_list)

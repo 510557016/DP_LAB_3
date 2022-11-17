@@ -48,10 +48,32 @@ os.chdir(path)
 os.listdir(path)
 !python train.py --img 640 --batch 16 --epochs 30 --data {YAML_NAME} --weights yolov5s.pt --cache
 
-9. train data labes tranfrom
+9. train data labels tranfrom
 PascalVOC(XML) 2 COCO(json)
 run voc2coco.py
-get labes file
+get labels file
+
+10. labels need split into train labels / val labels
+exapmle 
+labels/train2022/
+labels/val2022/
+
+11. del lables/ *.cache
+
+12. result 解讀
+    GIoU(Box)：推测为GIoU损失函数均值，越小方框越准
+    Objectness(Obj)：推测为目标检测loss均值，越小目标检测越准
+    Classification(cls)：推测为分类loss均值，越小分类越准
+    Precision：精度（找对的正类/所有找到的正类） 
+    Recall：召回率（找对的正类/所有本应该被找对的正类
+    mAP@0.5 & mAP@0.5:0.95：就是mAP是用Precision和Recall作为两轴作图后围成的面积，
+        m表示平均，@后面的数表示判定iou为正负样本的阈值，@0.5:0.95表示阈值取0.5:0.05:0.95后取均值
+
+    一般训练结果主要观察精度和召回率波动情况（波动不是很大则训练效果较好）
+
+    PR曲线（Precision-Recall) : 即以Recall为横坐标，Precision为纵坐标组成的曲线
+    
+
 
 
 

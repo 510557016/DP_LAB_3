@@ -41,12 +41,20 @@ https://github.com/ultralytics/yolov5/releases/download/v6.2/yolov5s.pt
 
 8.upload yolov5 doc to google cloud
 
-8.
+9.google collab comment
+[train] 
 import os
 path = "/content/drive/MyDrive/yolov5"
 os.chdir(path)
 os.listdir(path)
-!python train.py --img 640 --batch 16 --epochs 30 --data {YAML_NAME} --weights yolov5s.pt --cache
+!python train.py --img 640 --batch 16 --epochs 100 --data {YAML_NAME} --weights yolov5s.pt --cache
+[Validate]
+import os
+path = "/content/drive/MyDrive/yolov5"
+os.chdir(path)
+os.listdir(path)
+!python val.py --weights best.pt --data coco128.yaml --img 640 --half
+[Inferenece]
 
 9. train data labels tranfrom
 PascalVOC(XML) 2 COCO(json)
@@ -58,7 +66,7 @@ exapmle
 labels/train2022/
 labels/val2022/
 
-11. del lables/ *.cache
+11. if change labels please del lables/ *.cache
 
 12. result 解讀
     GIoU(Box)：推测为GIoU损失函数均值，越小方框越准

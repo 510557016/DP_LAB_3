@@ -35,7 +35,7 @@ def transfer_xml_to_annos(xmlPath, saveDir, imageDir, classes):
         height = im.shape[0]
         #print(filename+" width=",width)
         #print(filename+" height=",height)
-        
+    
         # 處理每個標註的檢測框
         with open(saveDir, "a") as bbox:
             #從<xml> object 開始搜尋
@@ -46,13 +46,11 @@ def transfer_xml_to_annos(xmlPath, saveDir, imageDir, classes):
                 label_index = str(classes.index(category))
             
                 bndbox = get_and_check(obj, 'bndbox', 1)
-                #xmin = (int(get_and_check(bndbox, 'xmin', 1).text) - 1) / width
-                #ymin = (int(get_and_check(bndbox, 'ymin', 1).text) - 1) / height
-                xmin = (int(get_and_check(bndbox, 'xmin', 1).text)) / width
-                ymin = (int(get_and_check(bndbox, 'ymin', 1).text)) / height
+                xmin = (int(get_and_check(bndbox, 'xmin', 1).text) - 1) / width
+                ymin = (int(get_and_check(bndbox, 'ymin', 1).text) - 1) / height
                 xmax = (int(get_and_check(bndbox, 'xmax', 1).text)) / width
                 ymax = (int(get_and_check(bndbox, 'ymax', 1).text)) / height
-                
+                 
                 #print(filename+" width=",width)
                 #print(filename+" height=",height)
                 #print(filename+" xmin=",xmin)
@@ -225,8 +223,8 @@ def main():
     #[Step2]將標籤轉換成coco格式，並以json格式存檔。資料夾包含images(圖片資料夾)、annos.txt(bbox標記)、classes.txt(類別清單)及annotations(儲存json的資料夾)。
     #print('[Step2] annos.txt轉coco，並以json格式儲存')
 
-    print("[Step2] 將圖片依照比例分配train與val")
-    train_list, val_list = train_val_split(source, 0.8)
+    #print("[Step2] 將圖片依照比例分配train與val")
+    train_list, val_list = train_val_split(source, 0.9)
 
     # 生成train與val之coco格式json檔
     #txt_to_coco_json(source, classes, train_list, 'instances_train2022')
